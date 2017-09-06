@@ -5,15 +5,85 @@
 		<link rel="shortcut icon" href="Icon.png">
 	</head>
 	<body>
-		<h1>Jump</h1>
+		<div align="center">
+			<h1>Jump</h1>
+		</div>
+		<img src="face.png" width=0 id="face">
 		<noscript>
 			This game is coded in Javascript, which you appear to have dissabled. If you have it enabled, but see this message, your browser is broken and you need to update it. This isn't just a trick to make you update your browser. I haven't even added adds yet.
 		</noscript>
-		<canvas name="can" width=800 height=500>
+		<div align="center">
+			<canvas id="canvas" width=800 height=500>
+		</div>
 	</body>
 	<footer>
 	<script>
-		alert("This has been delayed in development due to a problem with Javascript crashing when a line of code common in my older projects is used. Please check back in a few days.");
+	var frameRate = 30;
+		var canvas = document.getElementById("canvas");
+		var face = document.getElementById("face");
+		var ctx = canvas.getContext("2d");
+		var keys = [223];
+		var basePlatform = {
+			x: null,
+			y: null
+		};
+		var cam = {
+			y: 0,
+			x: 0
+		};
+		var jumping = false;
+		var jumpTime = 0;
+		var drawPlatform = function(platform, camera){
+			ctx.fillStyle = "#000000"
+			ctx.fillRect(platform.x - 50, platform.y - 5 + camera.y, 100, 10);
+			ctx.fillStyle = "#CCCCCC"
+			ctx.fillRect(platform.x - 49, platform.y - 4 + camera.y, 98, 8);
+		}
+		var platforms = [1];
+		var genPlat = function(num, x, y){
+			var plat = basePlatform;
+			plat.x = x;
+			plat.y = y;
+			platforms[num] = plat;
+		}
+		var draw = function(){
+			ctx.fillStyle = "#00ffff"
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			for(var i = 0; i < platforms.length; i++){
+				drawPlatform(platforms[i], cam);
+			}
+			ctx.drawImage(face, cam.x, canvas.height / 2);
+		}
+		var update = function(){
+			if(jumpTime > 30){
+			jumping = false;
+			jumpTime = 0;
+			}
+			if(jumping){
+				cam.y += 2.5;
+				jumpTime++;
+			}else{
+				cam.y -= 3.5;
+			}
+			if(keys[38] && !jumping){
+				jumping = true;
+			}
+			if(keys[37]){
+				cam.x -= 3.5;
+			}
+			if(keys[39]){
+				cam.x += 3.5;
+			}
+			draw();
+		}
+		genPlat(0, 80, 80);
+		setInterval(update, 1000 / frameRate);
+		window.onkeydown = function(e){
+			keys[e.keyCode] = true;
+		}
+		window.onkeyup = function(e){
+			keys[e.keyCode] = false;
+		}
 	</script>
 		<style>
 			h1 {
