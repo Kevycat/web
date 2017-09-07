@@ -18,7 +18,7 @@
 	</body>
 	<footer>
 	<script>
-	var frameRate = 30;
+	var frameRate = 90;
 		var canvas = document.getElementById("canvas");
 		var face = document.getElementById("face");
 		var ctx = canvas.getContext("2d");
@@ -54,29 +54,36 @@
 			}
 			ctx.drawImage(face, cam.x, canvas.height / 2);
 		}
+		var walkTime = 1;
+		var canFall = true;
 		var update = function(){
-			if(jumpTime > 30){
+			for(var i = 0; i < platforms.length; i++){
+				canFall = cam.y + platforms[i].y != canvas.height / 2 + 55 || cam.x > platforms[i].x + 50 || cam.x < platforms[i].x - 100;
+			}
+			if(jumpTime > 40){
 			jumping = false;
 			jumpTime = 0;
 			}
 			if(jumping){
-				cam.y += 2.5;
+				cam.y += walkTime;
 				jumpTime++;
-			}else{
-				cam.y -= 3.5;
+			}else if(canFall){
+				cam.y -= 1;
 			}
-			if(keys[38] && !jumping){
+			if(keys[38] && !jumping && !canFall){
 				jumping = true;
 			}
-			if(keys[37]){
-				cam.x -= 3.5;
+			if(keys[37] && !canFall){
+				cam.x -= Math.sqrt(walkTime);
+				walkTime++;
 			}
-			if(keys[39]){
-				cam.x += 3.5;
+			if(keys[39] && !canFall){
+				cam.x += Math.sqrt(walkTime);
+				walkTime++;
 			}
 			draw();
 		}
-		genPlat(0, 80, 80);
+		genPlat(0, 80, 350);
 		setInterval(update, 1000 / frameRate);
 		window.onkeydown = function(e){
 			keys[e.keyCode] = true;
