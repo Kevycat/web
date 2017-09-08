@@ -60,12 +60,12 @@
 			for(var i = 0; i < platforms.length; i++){
 				canFall = cam.y + platforms[i].y != canvas.height / 2 + 55 || cam.x > platforms[i].x + 50 || cam.x < platforms[i].x - 100;
 			}
-			if(jumpTime > 40){
+			if(jumpTime > 35){
 			jumping = false;
 			jumpTime = 0;
 			}
 			if(jumping){
-				cam.y += walkTime;
+				cam.y += Math.round(Math.sqrt(walkTime / 3));
 				jumpTime++;
 			}else if(canFall){
 				cam.y -= 1;
@@ -73,11 +73,11 @@
 			if(keys[38] && !jumping && !canFall){
 				jumping = true;
 			}
-			if(keys[37] && !canFall){
+			if(keys[37]){
 				cam.x -= Math.sqrt(walkTime);
 				walkTime++;
 			}
-			if(keys[39] && !canFall){
+			if(keys[39]){
 				cam.x += Math.sqrt(walkTime);
 				walkTime++;
 			}
