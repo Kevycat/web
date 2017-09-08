@@ -1,40 +1,111 @@
-<!DOCTYPE html>
+<!DOCTPYE html>
 <html>
 	<head>
-		<title>Kevycat's games</title>
+		<title>Jump</title>
 		<link rel="shortcut icon" href="Icon.png">
 	</head>
 	<body>
-		<img src="Icon.png" width="48" height="48">
-		<h1>Kevycat's Games</h1>
-		<h2>Games:</h2>
-		<a href="jump.html">Jump</a>
+		<div align="center">
+			<h1>Jump</h1>
+		</div>
+		<img src="face.png" width=0 id="face">
+		<noscript>
+			This game is coded in Javascript, which you appear to have dissabled. If you have it enabled, but see this message, your browser is broken and you need to update it. This isn't just a trick to make you update your browser. I haven't even added adds yet.
+		</noscript>
+		<div align="center">
+			<canvas id="canvas" width=800 height=500>
+		</div>
 	</body>
 	<footer>
+	<script>
+	var frameRate = 90;
+		var canvas = document.getElementById("canvas");
+		var face = document.getElementById("face");
+		var ctx = canvas.getContext("2d");
+		var keys = [223];
+		var basePlatform = {
+			x: null,
+			y: null
+		};
+		var cam = {
+			y: 0,
+			x: 0
+		};
+		var jumping = false;
+		var jumpTime = 0;
+		var drawPlatform = function(platform, camera){
+			ctx.fillStyle = "#000000"
+			ctx.fillRect(platform.x - 50, platform.y - 5 + camera.y, 100, 10);
+			ctx.fillStyle = "#CCCCCC"
+			ctx.fillRect(platform.x - 49, platform.y - 4 + camera.y, 98, 8);
+		}
+		var platforms = [1];
+		var genPlat = function(num, x, y){
+			var plat = basePlatform;
+			plat.x = x;
+			plat.y = y;
+			platforms[num] = plat;
+		}
+		var draw = function(){
+			ctx.fillStyle = "#00ffff"
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			for(var i = 0; i < platforms.length; i++){
+				drawPlatform(platforms[i], cam);
+			}
+			ctx.drawImage(face, cam.x, canvas.height / 2);
+		}
+		var walkTime = 1;
+		var canFall = true;
+var moving = false;
+		var update = function(){
+			for(var i = 0; i < platforms.length; i++){
+				canFall = cam.y + platforms[i].y != canvas.height / 2 + 55 || cam.x > platforms[i].x + 50 || cam.x < platforms[i].x - 100;
+			}
+			if(jumpTime > 35){
+			jumping = false;
+			jumpTime = 0;
+			}
+			if(jumping){
+				cam.y += Math.round(Math.sqrt(walkTime / 3));
+				jumpTime++;
+			}else if(canFall){
+				cam.y -= 1;
+			}
+			if(keys[38] && !jumping && !canFall){
+				jumping = true;
+			}
+			if(keys[37]){
+				cam.x -= Math.sqrt(walkTime);
+				walkTime++;
+				moving = true;
+			}
+			if(keys[39]){
+				cam.x += Math.sqrt(walkTime);
+				walkTime++;
+				moving = true;
+			}
+			if(!moving){
+				walkTime = 1;
+			}
+
+			draw();
+		}
+		genPlat(0, 80, 350);
+		setInterval(update, 1000 / frameRate);
+		window.onkeydown = function(e){
+			keys[e.keyCode] = true;
+		}
+		window.onkeyup = function(e){
+			keys[e.keyCode] = false;
+		}
+	</script>
 		<style>
 			h1 {
 				color:#00ffff
-			}
-			h2 {
-				color:#0a0aff
-			}
-			a {
-				color:#ffff00
 			}
 			html {
 				background:#e0e0e0
 			}
 		</style>
-<!-------adds------->
-			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- Kevycat Games -->
-<ins class="adsbygoogle"
-     style="display:inline-block;width:728px;height:90px"
-     data-ad-client="ca-pub-9655406014106460"
-     data-ad-slot="7672887101"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-<!-------end adds------->
 	</footer>
 </html>
