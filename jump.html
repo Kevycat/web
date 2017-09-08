@@ -9,6 +9,7 @@
 			<h1>Jump</h1>
 		</div>
 		<img src="face.png" width=0 id="face">
+		<img src="plat.png" width=0 id="plat">
 		<noscript>
 			This game is coded in Javascript, which you appear to have dissabled. If you have it enabled, but see this message, your browser is broken and you need to update it. This isn't just a trick to make you update your browser. I haven't even added adds yet.
 		</noscript>
@@ -21,6 +22,7 @@
 	var frameRate = 90;
 		var canvas = document.getElementById("canvas");
 		var face = document.getElementById("face");
+		var plat = document.getElementById("plat");
 		var ctx = canvas.getContext("2d");
 		var keys = [223];
 		var basePlatform = {
@@ -34,23 +36,16 @@
 		var jumping = false;
 		var jumpTime = 0;
 		var drawPlatform = function(platform, camera){
-			ctx.fillStyle = "#000000"
-			ctx.fillRect(platform.x - 50, platform.y - 5 + camera.y, 100, 10);
-			ctx.fillStyle = "#CCCCCC"
-			ctx.fillRect(platform.x - 49, platform.y - 4 + camera.y, 98, 8);
+			
 		}
-		var platforms = [1];
-		var genPlat = function(num, x, y){
-			var plat = basePlatform;
-			plat.x = x;
-			plat.y = y;
-			platforms[num] = plat;
-		}
+		var platforms = [2];
 		var draw = function(){
-			ctx.fillStyle = "#00ffff"
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
 			for(var i = 0; i < platforms.length; i++){
-				drawPlatform(platforms[i], cam);
+				ctx.fillStyle = "#000000"
+				ctx.fillRect(platforms[i].x - 50, platforms[i].y - 5 + cam.y, 100, 10);
+				ctx.fillStyle = "#CCCCCC"
+				ctx.fillRect(platforms[i].x - 49, platforms[i].y - 4 + cam.y, 98, 8);
+				ctx.drawImage(plat, platforms[i].x - 50, 0);
 			}
 			ctx.drawImage(face, cam.x, canvas.height / 2);
 		}
@@ -58,6 +53,8 @@
 		var canFall = true;
 var moving = false;
 		var update = function(){
+			ctx.fillStyle = "#00ffff"
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
 			for(var i = 0; i < platforms.length; i++){
 				canFall = cam.y + platforms[i].y != canvas.height / 2 + 55 || cam.x > platforms[i].x + 50 || cam.x < platforms[i].x - 100;
 			}
@@ -75,22 +72,28 @@ var moving = false;
 				jumping = true;
 			}
 			if(keys[37]){
-				cam.x -= Math.sqrt(walkTime);
+				cam.x -= Math.sqrt(walkTime / 1.5);
 				walkTime++;
 				moving = true;
 			}
 			if(keys[39]){
-				cam.x += Math.sqrt(walkTime);
+				cam.x += Math.sqrt(walkTime / 1.5);
 				walkTime++;
 				moving = true;
 			}
 			if(!moving){
 				walkTime = 1;
 			}
-
+			if(keys[80]){
+				platforms[1] = basePlatform;
+				platforms[1].x = 160;
+				platforms[1].y = 350;
+			}
 			draw();
 		}
-		genPlat(0, 80, 350);
+		platforms[0] = basePlatform;
+		platforms[0].x = 80;
+		platforms[0].y = 350;
 		setInterval(update, 1000 / frameRate);
 		window.onkeydown = function(e){
 			keys[e.keyCode] = true;

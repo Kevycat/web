@@ -56,8 +56,10 @@
 		}
 		var walkTime = 1;
 		var canFall = true;
-var moving = false;
+		var moving = false;
+		var time = 0;
 		var update = function(){
+			time++;
 			for(var i = 0; i < platforms.length; i++){
 				canFall = cam.y + platforms[i].y != canvas.height / 2 + 55 || cam.x > platforms[i].x + 50 || cam.x < platforms[i].x - 100;
 			}
@@ -87,7 +89,12 @@ var moving = false;
 			if(!moving){
 				walkTime = 1;
 			}
-
+			if(time > frameRate){
+				time = 0;
+				platforms = [platforms.length + 1];
+				genPlat(platforms.length, 80, 300);
+			}
+			console.log(time);
 			draw();
 		}
 		genPlat(0, 80, 350);
