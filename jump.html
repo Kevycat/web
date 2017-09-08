@@ -38,20 +38,16 @@
 		var drawPlatform = function(platform, camera){
 			
 		}
-		var platforms = [2];
+		var platforms = [1];
 		var draw = function(){
 			for(var i = 0; i < platforms.length; i++){
-				ctx.fillStyle = "#000000"
-				ctx.fillRect(platforms[i].x - 50, platforms[i].y - 5 + cam.y, 100, 10);
-				ctx.fillStyle = "#CCCCCC"
-				ctx.fillRect(platforms[i].x - 49, platforms[i].y - 4 + cam.y, 98, 8);
-				ctx.drawImage(plat, platforms[i].x - 50, 0);
+				ctx.drawImage(plat, platforms[i].x - 50, platforms[i].y - 5 + cam.y);
 			}
 			ctx.drawImage(face, cam.x, canvas.height / 2);
 		}
 		var walkTime = 1;
 		var canFall = true;
-var moving = false;
+		var moving = false;
 		var update = function(){
 			ctx.fillStyle = "#00ffff"
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -85,15 +81,15 @@ var moving = false;
 				walkTime = 1;
 			}
 			if(keys[80]){
-				platforms[1] = basePlatform;
-				platforms[1].x = 160;
-				platforms[1].y = 350;
+			
 			}
 			draw();
 		}
-		platforms[0] = basePlatform;
-		platforms[0].x = 80;
-		platforms[0].y = 350;
+		for(var i = 0; i < platforms.length; i++){
+			platforms[i] = basePlatform;
+			platforms[i].x = 80;
+			platforms[i].y = 350;
+		}
 		setInterval(update, 1000 / frameRate);
 		window.onkeydown = function(e){
 			keys[e.keyCode] = true;
