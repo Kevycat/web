@@ -73,11 +73,11 @@
 			if(keys[38] && !jumping && !canFall){
 				jumping = true;
 			}
-			if(keys[37] && !canFall){
+			if(keys[37]){
 				cam.x -= Math.sqrt(walkTime);
 				walkTime++;
 			}
-			if(keys[39] && !canFall){
+			if(keys[39]){
 				cam.x += Math.sqrt(walkTime);
 				walkTime++;
 			}
