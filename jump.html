@@ -46,7 +46,6 @@
 		var score = 0;
 		var highScore = decodeURIComponent(document.cookie);
 		highScore = highScore.split('=')[1];
-		alert(highScore);
 		var draw = function(){
 			for(var i = 0; i < platforms.length; i++){
 				ctx.drawImage(plat, platforms[i].x - 50, platforms[i].y - 5 + cam.y);
