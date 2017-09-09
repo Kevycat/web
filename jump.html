@@ -57,6 +57,9 @@
 			if(score > highScore){
 				highScore = score;
 			}
+			if(highScore == "undefined"){
+				highscore = 0;
+			}
 			ctx.drawImage(face, cam.x, canvas.height / 2);
 			ctx.fillStyle = "#000000";
 			ctx.fillText("Score: " + score + ", highscore: " + highScore, 00, 10);
