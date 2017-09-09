@@ -86,7 +86,7 @@
 				jumpTime = 0;
 			}
 			if(jumping){
-				cam.y += Math.round(Math.sqrt(walkTime / 2.5));
+				cam.y += Math.round(Math.sqrt(walkTime));
 				jumpTime++;
 			}else if(canFall){
 				cam.y -= 1;
@@ -94,12 +94,12 @@
 			if(keys[38] && !jumping && !canFall){
 				jumping = true;
 			}
-			if(keys[37]){
+			if(keys[37] && !keys[39]){
 				cam.x -= Math.sqrt(walkTime);
 				walkTime++;
 				moving = true;
 			}
-			if(keys[39]){
+			if(keys[39] && !keys[37]){
 				cam.x += Math.sqrt(walkTime);
 				walkTime++;
 				moving = true;
@@ -114,7 +114,7 @@
 				for(var i = 0; i < plat.length; i++){
 					platforms[i] = plat[i];
 				}
-				platforms[platforms.length] = {x: Math.round(Math.random() * (canvas.width - 100) + 50), y: platforms[platforms.length - 1].y - Math.round(Math.random() * 160 + 20)};
+				platforms[platforms.length] = {x: Math.round(Math.random() * (canvas.width - 100) + 50), y: platforms[platforms.length - 1].y - Math.round(Math.random() * 150 + 20)};
 				
 			}else if(diff < -500){
 				title = true;
@@ -132,6 +132,10 @@
 				cam.y = 0;
 				cam.x = 0;
 				ctx.drawImage(jump, 0, 0);
+				platforms = [1];
+				platforms[i] = basePlatform;
+				platforms[i].x = 80;
+				platforms[i].y = 400;
 			}else{
 				update();
 			}
