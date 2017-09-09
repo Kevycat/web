@@ -1,3 +1,4 @@
+
 <!DOCTPYE html>
 <html>
 	<head>
@@ -10,19 +11,22 @@
 		</div>
 		<img src="face.png" width=0 id="face">
 		<img src="plat.png" width=0 id="plat">
+		<img src="jump.png" width=0 id="jump">
 		<noscript>
 			This game is coded in Javascript, which you appear to have dissabled. If you have it enabled, but see this message, your browser is broken and you need to update it. This isn't just a trick to make you update your browser. I haven't even added adds yet.
 		</noscript>
 		<div align="center">
-			<canvas id="canvas" width=800 height=500>
+			<canvas id="canvas" width=600 height=600>
 		</div>
 	</body>
 	<footer>
 	<script>
 	var frameRate = 90;
+	var title = true;
 		var canvas = document.getElementById("canvas");
 		var face = document.getElementById("face");
 		var plat = document.getElementById("plat");
+		var jump = document.getElementById("jump");
 		var ctx = canvas.getContext("2d");
 		var keys = [223];
 		var basePlatform = {
@@ -39,27 +43,47 @@
 			
 		}
 		var platforms = [1];
+		var score = 0;
+		var highScore = decodeURIComponent(document.cookie);
+		alert(highScore);
 		var draw = function(){
 			for(var i = 0; i < platforms.length; i++){
 				ctx.drawImage(plat, platforms[i].x - 50, platforms[i].y - 5 + cam.y);
 			}
+			if(cam.y > score){
+				score = cam.y;
+			}
+			if(score > highScore){
+				highScore = score;
+			}
 			ctx.drawImage(face, cam.x, canvas.height / 2);
+			ctx.fillStyle = "#000000";
+			ctx.fillText("Score: " + score + ", highscore: " + highScore, 00, 10);
 		}
+		var diff;
 		var walkTime = 1;
 		var canFall = true;
 		var moving = false;
 		var update = function(){
+		document.cookie = "high=" + highScore;
+		moving = false;
 			ctx.fillStyle = "#00ffff"
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			canFall = true;
 			for(var i = 0; i < platforms.length; i++){
-				canFall = cam.y + platforms[i].y != canvas.height / 2 + 55 || cam.x > platforms[i].x + 50 || cam.x < platforms[i].x - 100;
+				canFall = (cam.y + platforms[i].y != canvas.height / 2 + 55 || cam.x > platforms[i].x + 50 || cam.x < platforms[i].x - 100) && canFall;
 			}
-			if(jumpTime > 35){
-			jumping = false;
-			jumpTime = 0;
+			if(cam.x < 0){
+				cam.x = 0;
+			}else if(cam.x > 550){
+				cam.x = 550;
+			}
+			if(jumpTime > 40){
+				jumping = false;
+				jumpTime = 0;
 			}
 			if(jumping){
-				cam.y += Math.round(Math.sqrt(walkTime / 3));
+				cam.y += Math.round(Math.sqrt(walkTime / 2.5));
 				jumpTime++;
 			}else if(canFall){
 				cam.y -= 1;
@@ -68,34 +92,58 @@
 				jumping = true;
 			}
 			if(keys[37]){
-				cam.x -= Math.sqrt(walkTime / 1.5);
+				cam.x -= Math.sqrt(walkTime);
 				walkTime++;
 				moving = true;
 			}
 			if(keys[39]){
-				cam.x += Math.sqrt(walkTime / 1.5);
+				cam.x += Math.sqrt(walkTime);
 				walkTime++;
 				moving = true;
 			}
 			if(!moving){
 				walkTime = 1;
 			}
-			if(keys[80]){
-			
+			diff = cam.y + platforms[platforms.length - 1].y - 305;
+			if(diff >= 0){
+				var plat = platforms;
+				platforms = [platforms.length];
+				for(var i = 0; i < plat.length; i++){
+					platforms[i] = plat[i];
+				}
+				platforms[platforms.length] = {x: Math.round(Math.random() * (canvas.width - 100) + 50), y: platforms[platforms.length - 1].y - Math.round(Math.random() * 160 + 20)};
+				
+			}else if(diff < -500){
+				title = true;
 			}
 			draw();
 		}
 		for(var i = 0; i < platforms.length; i++){
 			platforms[i] = basePlatform;
 			platforms[i].x = 80;
-			platforms[i].y = 350;
+			platforms[i].y = 400;
 		}
-		setInterval(update, 1000 / frameRate);
+		var control = function(){
+			if(title){
+				score = 0;
+				cam.y = 0;
+				cam.x = 0;
+				ctx.drawImage(jump, 0, 0);
+			}else{
+				update();
+			}
+		}
+		setInterval(control, 1000 / frameRate);
 		window.onkeydown = function(e){
 			keys[e.keyCode] = true;
 		}
 		window.onkeyup = function(e){
 			keys[e.keyCode] = false;
+			if(title){
+				title = false;
+				cam.y = 0;
+				cam.x = 0;
+			}
 		}
 	</script>
 		<style>
