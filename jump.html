@@ -41,6 +41,7 @@
 		var jumpTime = 0;
 		var platforms = [1];
 		var score = 0;
+		alert(document.cookie);
 		var highScore = parseInt(decodeURIComponent(document.cookie).split('=')[1]);
 		var draw = function(){
 			for(var i = 0; i < platforms.length; i++){
