@@ -54,9 +54,12 @@
 			}
 			ctx.drawImage(face, cam.x, canvas.height / 2);
 			ctx.fillStyle = "#000000";
-			ctx.fillText("Score: " + score + ", highscore: " + highScore, 00, 10);
+			ctx.fillText("Score: " + score + ", highscore: " + highScore + ". Presss 'H' for help.", 00, 10);
 			if(keys[80]){
 				highScore = 0;
+			}
+			if(keys[72]){
+			
 			}
 		}
 		var diff;
