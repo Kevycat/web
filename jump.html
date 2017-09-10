@@ -52,7 +52,7 @@
 			if(score > highScore){
 				highScore = score;
 			}
-			if(!highScore >= 0){
+			if(highScore < 0 || document.cookie == null){
 				highscore = 0;
 			}
 			ctx.drawImage(face, cam.x, canvas.height / 2);
