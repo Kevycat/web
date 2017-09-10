@@ -29,7 +29,6 @@
 		var jump = document.getElementById("jump");
 		var ctx = canvas.getContext("2d");
 		var keys = [223];
-		console.log(parseInt(decodeURIComponent(document.cookie).split('=')[1]));
 		var basePlatform = {
 			x: null,
 			y: null
@@ -40,12 +39,9 @@
 		};
 		var jumping = false;
 		var jumpTime = 0;
-		var drawPlatform = function(platform, camera){
-			
-		}
 		var platforms = [1];
 		var score = 0;
-		var highScore = 0;
+		var highScore = parseInt(decodeURIComponent(document.cookie).split('=')[1]);
 		var draw = function(){
 			for(var i = 0; i < platforms.length; i++){
 				ctx.drawImage(plat, platforms[i].x - 50, platforms[i].y - 5 + cam.y);
