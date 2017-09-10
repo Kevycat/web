@@ -44,8 +44,7 @@
 		}
 		var platforms = [1];
 		var score = 0;
-		var highScore = decodeURIComponent(document.cookie);
-		highScore = highScore.split('=')[1];
+		var highScore = 0;
 		var draw = function(){
 			for(var i = 0; i < platforms.length; i++){
 				ctx.drawImage(plat, platforms[i].x - 50, platforms[i].y - 5 + cam.y);
@@ -56,7 +55,7 @@
 			if(score > highScore){
 				highScore = score;
 			}
-			if(highScore == undefined){
+			if(highScore == null){
 				highscore = 0;
 			}
 			ctx.drawImage(face, cam.x, canvas.height / 2);
@@ -68,7 +67,7 @@
 		var canFall = true;
 		var moving = false;
 		var update = function(){
-		document.cookie = "high=NotAnImplementedFeature";
+		document.cookie = "high=" + highScore;
 		moving = false;
 			ctx.fillStyle = "#00ffff"
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -150,9 +149,6 @@
 				title = false;
 				cam.y = 0;
 				cam.x = 0;
-			}
-			if(keys[80]){
-				highScore = 0;
 			}
 		}
 	</script>
