@@ -52,7 +52,7 @@
 			if(score > highScore){
 				highScore = score;
 			}
-			if(highScore == null){
+			if(highScore == null || highScore == NaN){
 				highscore = 0;
 			}
 			ctx.drawImage(face, cam.x, canvas.height / 2);
