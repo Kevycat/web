@@ -52,12 +52,12 @@
 			if(score > highScore){
 				highScore = score;
 			}
-			if(highScore < 0 || document.cookie == ""){
-				highscore = 0;
-			}
 			ctx.drawImage(face, cam.x, canvas.height / 2);
 			ctx.fillStyle = "#000000";
 			ctx.fillText("Score: " + score + ", highscore: " + highScore, 00, 10);
+			if(keys[80]){
+				highScore = 0;
+			}
 		}
 		var diff;
 		var walkTime = 1;
