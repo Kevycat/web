@@ -12,6 +12,7 @@
 		<img src="face.png" width=0 id="face">
 		<img src="plat.png" width=0 id="plat">
 		<img src="jump.png" width=0 id="jump">
+		<img src="achievements.png" width=0 id="achievements">
 		<noscript>
 			This game is coded in Javascript, which you appear to have dissabled. If you have it enabled, but see this message, your browser is broken and you need to update it. This isn't just a trick to make you update your browser. I haven't even added adds yet.
 		</noscript>
@@ -27,21 +28,38 @@
 		var face = document.getElementById("face");
 		var plat = document.getElementById("plat");
 		var jump = document.getElementById("jump");
+		var achievements = document.getElementById("achievements");
 		var ctx = canvas.getContext("2d");
 		var keys = [223];
 		var basePlatform = {
-			x: null,
-			y: null
+			x: 0,
+			y: 0
 		};
 		var cam = {
 			y: 0,
 			x: 0
 		};
+		var baseAchievement = {
+			name: "",
+			requires: "",
+			completed: false
+		}
+		var achieve = [26];
 		var jumping = false;
 		var jumpTime = 0;
 		var platforms = [1];
 		var score = 0;
 		var highScore = parseInt(decodeURIComponent(document.cookie).split('=')[1]);
+		for(var i = 0; i < achieve.length; i++){
+			achieve[i] = baseAchievement;
+		}
+		var drawAchievement = function(achievement, x, y){
+			ctx.fillStyle = "#ffffff";
+			ctx.fillText(achievement.name, x * 300, 10 + y * 40 + 80);
+			ctx.fillText(achievement.requires, x * 300, 20 + y * 40 + 80);
+			ctx.fillStyle = "#000000";
+			ctx.fillRect(x * 300, y * 40 + 120, 300, 2);
+		}
 		var draw = function(){
 			for(var i = 0; i < platforms.length; i++){
 				ctx.drawImage(plat, platforms[i].x - 50, platforms[i].y - 5 + cam.y);
@@ -54,16 +72,20 @@
 			}
 			ctx.drawImage(face, cam.x, canvas.height / 2);
 			ctx.fillStyle = "#000000";
-			ctx.fillText("Score: " + score + ", highscore: " + highScore + ". Presss 'H' for help.", 00, 10);
+			ctx.fillText("Score: " + score + ", highscore: " + highScore + ". Presss 'H' for help.", 0, 10);
 			if(keys[80]){
 				highScore = 0;
 			}
 			if(keys[72]){
-				alert("Use the left and right arrows to go left and right. The longer you go in a single direction without stopping, the more momentum you get. You lose it when you stop. The point of the game is to go up. You can go up with the up arrow. You jump exponentially higher as you gain momentum. Platforms are generated as you go. This can be seen each time you reach a new platform. If you fall too far below the top platform, you will be returned to the title screen. It will track your high score, but it gets reset each time you reload, unless you enable cookies for this site. New features are coming soon.");
+				alert("Use the left and right arrows to go left and right. The longer you go in a single direction without stopping, the more momentum you get. You lose it when you stop. The point of the game is to go up. You can go up with the up arrow. You jump exponentially higher as you gain momentum. Platforms are generated as you go. This can be seen each time you reach a new platform. If you fall too far below the top platform, you will be returned to the title screen. It will track your high score, but it gets reset each time you reload, unless you enable cookies for this site. New features are coming soon. If the score box in the top-left shows your high score as NaN, then press p.");
 				keys[72] = false;
+			}
+			if(keys[65]){
+				achievementScreen = true;
 			}
 		}
 		var diff;
+		achievementScreen = false;
 		var walkTime = 1;
 		var canFall = true;
 		var moving = false;
@@ -136,6 +158,14 @@
 				platforms[i] = basePlatform;
 				platforms[i].x = 80;
 				platforms[i].y = 400;
+			}else if(achievementScreen){
+				ctx.drawImage(achievements, 0, 0);
+				achieve[0].name = "hi";
+				achieve[0].requires = "say hi";
+				drawAchievement(achieve[0], 0, 0);
+				if(keys[27]){
+					achievementScreen = false;
+				}
 			}else{
 				update();
 			}
