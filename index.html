@@ -23,6 +23,13 @@
 					console.log('Email: ' + profile.getEmail());
 				}
 			</script>
+			<a href="#" onclick="Sign out();">Sign out</a>
+			<script>
+				function signOut() {
+					var auth2 = gapi.auth2.getAuthInstance();
+					auth2.signOut();
+				}
+			</script>
 		</div>
 		<!---->
 		<h2>Games</h2>
