@@ -15,28 +15,12 @@
 		<h3>Click here to sign in.</h3>
 		<div class="g-signin2" data-onsuccess="onSignIn">
 			<script>
-			var profile;
-			var init = function(){
-				return googleUser.getBasicProfile();
-			}
-			var getId = function(){
-				return profile.getId();
-			}
-			var getName = function(){
-				return profile.getName();
-			}
-			var getImageUrl = function(){
-				return profile.getUrl();
-			}
-			var getEmail = function(){
-				return profile.getEmail();
-			}
 				var onSignIn = function(googleUser) {
-				init();
-					console.log('ID: ' + getId());
-					console.log('Name: ' + getName());
-					console.log('Image URL: ' + getImageUrl());
-					console.log('Email: ' + getEmail());
+					var profile = googleUser.getBasicProfile();
+					console.log('ID: ' + profile.getId());
+					console.log('Name: ' + profile.getName());
+					console.log('Image URL: ' + profile.getImageUrl());
+					console.log('Email: ' + profile.getEmail());
 				}
 			</script>
 		</div>
