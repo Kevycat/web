@@ -14,8 +14,23 @@
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
 		<h3>Click here to sign in.</h3>
 		<div class="g-signin2" data-onsuccess="onSignIn">
-		<script src="userData.js"></script>
 			<script>
+			var profile;
+			var init = function(){
+				return googleUser.getBasicProfile();
+			}
+			var getId = function(){
+				return profile.getId();
+			}
+			var getName = function(){
+				return profile.getName();
+			}
+			var getImageUrl = function(){
+				return profile.getUrl();
+			}
+			var getEmail = function(){
+				return profile.getEmail();
+			}
 				var onSignIn = function(googleUser) {
 				init();
 					console.log('ID: ' + getId());
