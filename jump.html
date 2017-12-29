@@ -81,7 +81,7 @@
 				keys[72] = false;
 			}
 			if(keys[65]){
-				achievementScreen = true;
+				//achievementScreen = true; The achievements screen is disabled, it may be back later.
 			}
 		}
 		var diff;
@@ -100,8 +100,10 @@
 			}
 			if(cam.x < 0){
 				cam.x = 0;
+				walkTime = 0;
 			}else if(cam.x > 550){
 				cam.x = 550;
+				walkTime = 0;
 			}
 			if(jumpTime > 40){
 				jumping = false;
