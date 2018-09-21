@@ -1,0 +1,79 @@
+<script>
+var b0, b1, q;
+var state = 0;
+var loc = "https://mastercat.games/hp/h2.html?id=";
+</script>
+<h2 id="h">Are you driven by...</h2>
+<button type="button" class="button" id="b0" onclick="
+if(state == 1){
+b0.classList.add('hide');
+b1.classList.add('hide');
+q.innerHTML = 'Slytherin!';
+location = loc + 's';
+return false;
+}
+if(state == -1){
+b0.classList.add('hide');
+b1.classList.add('hide');
+q.innerHTML = 'Ravenclaw!';
+location = loc + 'r';
+return false;
+}
+state++;
+if(state == 1){
+b0.innerHTML = 'those closest to you?';
+b1.innerHTML = 'or humanity in general?';
+}
+">people?
+</button>
+<button type="button" class="button" id="b1" onclick="
+if(state == 1){
+b0.classList.add('hide');
+b1.classList.add('hide');
+q.innerHTML = 'Hufflepuff!';
+location = loc + 'h';
+return false;
+}
+if(state == -1){
+b0.classList.add('hide');
+b1.classList.add('hide');
+q.innerHTML = 'Gryffindor!';
+location = loc + 'g';
+return false;
+}
+state--;
+if(state == -1){
+q.innerHTML = 'Do you have...';
+b0.innerHTML = 'a moral system?';
+b1.innerHTML = 'or strong feelings / gut instincts?';
+}
+">or morals?
+</button>
+<style>
+.button {
+background-color:#00C403;
+border:groove;
+color:white;
+padding:10px 30px;
+text-align:center;
+font-size: 18px;
+cursor:grab;
+}
+.clicked {
+background-color:#005FC4;
+border:groove;
+color:white;
+padding:10px 30px;
+text-align:center;
+font-size: 18px;
+cursor:hand;
+}
+.hide {
+visibility:hidden;
+}
+</style>
+<script>
+b0 = document.querySelector("#b0");
+b1 = document.querySelector("#b1");
+q = document.querySelector("#h");
+</script>

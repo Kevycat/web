@@ -1,0 +1,98 @@
+<script>
+var b0, b1, q;
+var state = 0;
+var loc = "C:/Users/72107/Desktop/hp/h2.html";
+function printM(){
+var houseMotivation = location.href.split("?id=")[1]
+var hm;
+switch(houseMotivation){
+case "g":
+hm = "Gryffindor";
+break;
+case "h":
+hm = "Hufflepuff";
+break;
+case "r":
+hm = "Ravenclaw";
+break;
+case "s":
+hm = "Slytherine";
+break;
+}
+q.innerHTML = "Motivation: " + hm + ", Method: ";
+}
+</script>
+<h2 id="h">When you build do you...</h2>
+<button type="button" class="button" id="b0" onclick="
+if(state == 1){
+b0.classList.add('hide');
+b1.classList.add('hide');
+printM();
+q.innerHTML += 'Slytherin';
+return false;
+}
+if(state == -1){
+b0.classList.add('hide');
+b1.classList.add('hide');
+printM();
+q.innerHTML += 'Hufflepuff';
+return false;
+}
+state++;
+if(state == 1){
+b0.innerHTML = 'adapt?';
+b1.innerHTML = 'or charge in?';
+}
+">improvise skills?
+</button>
+<button type="button" class="button" id="b1" onclick="
+if(state == 1){
+b0.classList.add('hide');
+b1.classList.add('hide');
+printM();
+q.innerHTML += 'Gryffindor';
+return false;
+}
+if(state == -1){
+b0.classList.add('hide');
+b1.classList.add('hide');
+printM();
+q.innerHTML += 'Ravenclaw';
+return false;
+}
+state--;
+if(state == -1){
+q.innerHTML = 'Do you have...';
+b0.innerHTML = 'use hard work and persistance?';
+b1.innerHTML = 'or plan and research?';
+}
+">or build skills?
+</button>
+<style>
+.button {
+background-color:#00C403;
+border:groove;
+color:white;
+padding:10px 30px;
+text-align:center;
+font-size: 18px;
+cursor:grab;
+}
+.clicked {
+background-color:#005FC4;
+border:groove;
+color:white;
+padding:10px 30px;
+text-align:center;
+font-size: 18px;
+cursor:hand;
+}
+.hide {
+visibility:hidden;
+}
+</style>
+<script>
+b0 = document.querySelector("#b0");
+b1 = document.querySelector("#b1");
+q = document.querySelector("#h");
+</script>
