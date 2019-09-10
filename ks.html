@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<head>
+	<title>Scripty Doodad</title>
+</head>
+<body>
+	<form action="javascript:compile();">
+		<textarea id="code" rows="30" cols="30"/>Put your "code" here.</textarea>
+		<input type="submit" value="Test">
+	</form>
+</body>
+<footer>
+	<script>
+		var specialChars = [" ", "(", ")", "{", "}"];
+		var whitespace = [" ", "\n"];
+
+		function compile(){
+			var code = document.getElementById("code").value;
+			var tokens = [];
+			var tokenType = "token";
+			var token = "";
+			for(var i = 0; i < code.length; i++){
+				console.log(token + " " + tokenType);
+				if(tokenType === "token"){
+					if(!specialChars.includes(code[i])){
+						tokenType = "name";
+					}else{
+						tokenType = "special";
+					}
+				}
+				if(tokenType === "name"){
+					if(specialChars.includes(code[i])){
+						tokens[tokens.length] = token;
+						token = "";
+						tokenType = "token";
+						i--;
+						continue;
+					}else if(!whitespace.includes(code[i])){
+						token += code[i];
+					}
+				}
+				if(tokenType === "special"){
+					if(!specialChars.includes(code[i])){
+						tokens[tokens.length] = token;
+						token = "";
+						tokenType = "token";
+						i--;
+						continue;
+					}else if(!whitespace.includes(code[i])){
+						token += code[i];
+					}
+				}
+			}
+			if(token.length > 0){
+				tokens[tokens.length] = token;
+			}
+			alert(tokens);
+		}
+	</script>
+</footer>
