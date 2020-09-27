@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	    <title>Belt Bolt!</title>
+	</head>
+	<body>
+	    <h1>Belt Bolt</h1>
+		<image src="png/belt-bolt/frame.png" width=0 id="frame">
+		<image src="png/belt-bolt/player1.png" width=0 id="player1">
+		<image src="png/belt-bolt/player2.png" width=0 id="player2">
+	    <canvas width=1500 id="canvas"/>
+	</body>
+	<footer>
+	    <script>
+            var canvas = document.getElementById("canvas");
+	        var ctx = canvas.getContext("2d");
+			var draw;
+			var movePlayer;
+			
+			var frameRate = 60;
+			
+			var keys = new Array(222).fill(false);
+			var player1Pos = {x: 0.2, y: 0.05};
+			var player2Pos = {x: 0.15, y: 0.7};
+			
+			var frameImg;
+			var playerImg;
+			
+			window.onload = function() {
+			    canvas.height = canvas.width * 3 / 5;
+				frameImg = document.getElementById("frame");
+				player1Img = document.getElementById("player1");
+				player2Img = document.getElementById("player2");
+				setInterval(draw, 1000 / frameRate);
+			}
+			
+			draw = function() {
+			    movePlayer();
+		        ctx.fillStyle = "blue";
+		        ctx.fillRect(0, 0, canvas.width, canvas.height);
+		    	ctx.drawImage(frameImg, 0, 0, canvas.width, canvas.height);
+				ctx.drawImage(player1Img, player1Pos.x * canvas.width, player1Pos.y * canvas.height, canvas.width * 0.06, canvas.width * 0.08);
+				ctx.drawImage(player2Img, player2Pos.x * canvas.width, player2Pos.y * canvas.height, canvas.width * 0.06, canvas.width * 0.08);
+			}
+			
+			movePlayer = function() {
+			    var playerSpeed = 0.8;
+			    if(keys[65]) {
+				    player1Pos.x -= playerSpeed / frameRate * canvas.height / canvas.width;
+				}
+				
+				if(keys[68]) {
+				    player1Pos.x += playerSpeed / frameRate * canvas.height / canvas.width;
+				}
+				
+				if(keys[87]) {
+				    player1Pos.y -= playerSpeed / frameRate;
+				}
+				
+				if(keys[83]) {
+				    player1Pos.y += playerSpeed / frameRate;
+				}
+				
+				if(keys[37]) {
+				    player2Pos.x -= playerSpeed / frameRate * canvas.height / canvas.width;
+				}
+				
+				if(keys[39]) {
+				    player2Pos.x += playerSpeed / frameRate * canvas.height / canvas.width;
+				}
+				
+				if(keys[38]) {
+				    player2Pos.y -= playerSpeed / frameRate;
+				}
+				
+				if(keys[40]) {
+				    player2Pos.y += playerSpeed / frameRate;
+				}
+			}
+			
+			window.onkeydown = function(e) {
+			    keys[e.keyCode] = true;
+			}
+			
+			window.onkeyup = function(e) {
+			    keys[e.keyCode] = false;
+			}
+		</script>
+		<style>
+		    canvas {
+			    position: fixed;
+			    left: 50%;
+				right: 50%;
+				transform: translate(-50%, 0%);
+			}
+			h1 {
+			    font-size: 3em;
+				margin: auto;
+				text-align: center;
+				color: #fff;
+			}
+			html {
+			    background-color: #444;
+			}
+		</style>
+	</footer>
+</html>
