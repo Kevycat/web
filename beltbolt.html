@@ -9,25 +9,30 @@
 		<image src="png/belt-bolt/player1.png" width=0 id="player1">
 		<image src="png/belt-bolt/player2.png" width=0 id="player2">
 		<image src="png/belt-bolt/counter-continuous.png" width=0 id="counter">
+		<image src="png/belt-bolt/box.png" width=0 id="box">
 	    <canvas width=1500 id="canvas"/>
 	</body>
 	<footer>
 	    <script>
             var canvas = document.getElementById("canvas");
 	        var ctx = canvas.getContext("2d");
+
 			var draw;
 			var movePlayer;
 			
 			var frameRate = 60;
+			var beltSpeed = 300;
 			
 			var keys = new Array(222).fill(false);
 			var player1Pos = {x: 0.2, y: 0.05};
 			var player2Pos = {x: 0.15, y: 0.7};
+			var boxes = [-beltSpeed / 20];
 			
 			var frameImg;
 			var player1Img;
 			var player2Img;
 			var counterImg;
+			var boxImg;
 			
 			window.onload = function() {
 			    canvas.height = canvas.width * 3 / 5;
@@ -35,20 +40,38 @@
 				player1Img = document.getElementById("player1");
 				player2Img = document.getElementById("player2");
 				counterImg = document.getElementById("counter");
+				boxImg = document.getElementById("box");
 				setInterval(draw, 1000 / frameRate);
 			}
 			
 			draw = function() {
+			    for(var i = 0; i < boxes.length; i++) {
+				    boxes[i]++;
+					if(boxes[i] > beltSpeed) {
+					    boxes[i] = -beltSpeed / 20;
+					}
+				}
+				
+				if(Math.random(1) > 0.99) {
+				    boxes[boxes.length] = -beltSpeed / 20;
+				}
+			
+		    	movePlayer();
 		        ctx.fillStyle = "#CCF";
-			    movePlayer();
 		        ctx.fillRect(0, 0, canvas.width, canvas.height);
+				
+				ctx.drawImage(player1Img, player1Pos.x * canvas.width, player1Pos.y * canvas.height, canvas.width * 0.06, canvas.width * 0.08);
 				
 				for(var i = 0; i < 10; i++) {
 				    ctx.drawImage(counterImg, i * canvas.width / 10, canvas.height / 2, canvas.width / 10, canvas.height / 10);
 				}
 				
+				
+				for(var i = 0; i < boxes.length; i++) {
+				    ctx.drawImage(box, boxes[i] * canvas.width / beltSpeed, canvas.height / 2 + canvas.height / 10 - canvas.height / 30 * 3 - canvas.width / 150, canvas.width / 20, canvas.height / 20);
+				}
+				
 		    	ctx.drawImage(frameImg, 0, 0, canvas.width, canvas.height);
-				ctx.drawImage(player1Img, player1Pos.x * canvas.width, player1Pos.y * canvas.height, canvas.width * 0.06, canvas.width * 0.08);
 				ctx.drawImage(player2Img, player2Pos.x * canvas.width, player2Pos.y * canvas.height, canvas.width * 0.06, canvas.width * 0.08);
 			}
 			
