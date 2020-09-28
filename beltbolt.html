@@ -8,6 +8,7 @@
 		<image src="png/belt-bolt/frame.png" width=0 id="frame">
 		<image src="png/belt-bolt/player1.png" width=0 id="player1">
 		<image src="png/belt-bolt/player2.png" width=0 id="player2">
+		<image src="png/belt-bolt/counter-continuous.png" width=0 id="counter">
 	    <canvas width=1500 id="canvas"/>
 	</body>
 	<footer>
@@ -24,20 +25,28 @@
 			var player2Pos = {x: 0.15, y: 0.7};
 			
 			var frameImg;
-			var playerImg;
+			var player1Img;
+			var player2Img;
+			var counterImg;
 			
 			window.onload = function() {
 			    canvas.height = canvas.width * 3 / 5;
 				frameImg = document.getElementById("frame");
 				player1Img = document.getElementById("player1");
 				player2Img = document.getElementById("player2");
+				counterImg = document.getElementById("counter");
 				setInterval(draw, 1000 / frameRate);
 			}
 			
 			draw = function() {
+		        ctx.fillStyle = "#CCF";
 			    movePlayer();
-		        ctx.fillStyle = "blue";
 		        ctx.fillRect(0, 0, canvas.width, canvas.height);
+				
+				for(var i = 0; i < 10; i++) {
+				    ctx.drawImage(counterImg, i * canvas.width / 10, canvas.height / 2, canvas.width / 10, canvas.height / 10);
+				}
+				
 		    	ctx.drawImage(frameImg, 0, 0, canvas.width, canvas.height);
 				ctx.drawImage(player1Img, player1Pos.x * canvas.width, player1Pos.y * canvas.height, canvas.width * 0.06, canvas.width * 0.08);
 				ctx.drawImage(player2Img, player2Pos.x * canvas.width, player2Pos.y * canvas.height, canvas.width * 0.06, canvas.width * 0.08);
